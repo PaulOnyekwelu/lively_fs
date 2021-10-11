@@ -9,6 +9,12 @@ services:
     volumes:
       - ./frontend:/app
 
+  frontend-test:
+    image: fullstack-compose_frontend
+    volumes:
+      - ./frontend:/app
+    command: npm test
+
   backend:
     build: ./backend
     ports:
@@ -17,6 +23,8 @@ services:
       DB_URL: mongodb://db/vidly
     volumes:
       - ./backend:/app
+    command: ./docker-entrypoint.sh
+    # command: ./wait-for db:27017 && migrate mongo up && npm start
 
   db:
     image: mongo:4.0-xenial
